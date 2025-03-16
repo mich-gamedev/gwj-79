@@ -1,0 +1,126 @@
+[gd_scene load_steps=10 format=3 uid="uid://bukvfkbpktlfk"]
+
+[ext_resource type="Script" uid="uid://bxk7om8m1rdnd" path="res://objects/hook/hook.gd" id="1_r55oi"]
+[ext_resource type="Texture2D" uid="uid://btfdmr8mmwlwn" path="res://objects/hook/hook_outer.png" id="2_8pyki"]
+[ext_resource type="Texture2D" uid="uid://oac3bmvtuq2e" path="res://objects/hook/hook_inner.png" id="3_qlyp7"]
+[ext_resource type="Script" uid="uid://dwql1jjhox6r2" path="res://objects/hook/animation_player.gd" id="4_qlyp7"]
+[ext_resource type="Script" uid="uid://dkrdcai6c8yc8" path="res://components/movement/move_towards.gd" id="5_4og6r"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pncjk"]
+radius = 8.0
+
+[sub_resource type="Animation" id="Animation_3mivm"]
+length = 0.001
+step = 0.0833333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HookOuter:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HookInner:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_4og6r"]
+resource_name = "release"
+length = 0.5
+loop_mode = 1
+step = 0.0833333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HookOuter:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(-1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HookInner:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector2(-1, 1), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ed3xh"]
+_data = {
+&"RESET": SubResource("Animation_3mivm"),
+&"release": SubResource("Animation_4og6r")
+}
+
+[node name="Area2D" type="Area2D" groups=["hook"]]
+script = ExtResource("1_r55oi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_pncjk")
+debug_color = Color(0.862745, 0.0980392, 0.835294, 0)
+
+[node name="HookOuter" type="Node2D" parent="."]
+
+[node name="Above" type="Sprite2D" parent="HookOuter"]
+z_index = 10
+texture = ExtResource("2_8pyki")
+
+[node name="Below" type="Sprite2D" parent="HookOuter"]
+z_index = -2
+texture = ExtResource("2_8pyki")
+flip_h = true
+
+[node name="HookInner" type="Node2D" parent="."]
+
+[node name="Above" type="Sprite2D" parent="HookInner"]
+z_index = 9
+texture = ExtResource("3_qlyp7")
+
+[node name="Below" type="Sprite2D" parent="HookInner"]
+z_index = -1
+texture = ExtResource("3_qlyp7")
+flip_h = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ed3xh")
+}
+autoplay = "release"
+speed_scale = 0.0
+script = ExtResource("4_qlyp7")
+
+[node name="Target" type="Node2D" parent="."]
+top_level = true
+
+[node name="MoveBodyTowards" type="Node" parent="." node_paths=PackedStringArray("body", "target_node")]
+script = ExtResource("5_4og6r")
+speed = 24.0
+accel = 16.0
+offset = 0.1309
+body = NodePath("..")
+target_node = NodePath("../Target")
+metadata/_custom_type_script = "uid://dkrdcai6c8yc8"
+
+[connection signal="hook_latched" from="." to="AnimationPlayer" method="_on_area_2d_hook_latched"]
+[connection signal="hook_released" from="." to="AnimationPlayer" method="_on_area_2d_hook_released"]

@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://brach5v35kve7"
+path="res://.godot/imported/slam.ase-8783e28d1b23f644a09bfbf60861b026.res"
+
+[deps]
+
+source_file="res://objects/player/slam.ase"
+dest_files=["res://.godot/imported/slam.ase-8783e28d1b23f644a09bfbf60861b026.res"]
+
+[params]
+

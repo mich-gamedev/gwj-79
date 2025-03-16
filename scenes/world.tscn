@@ -1,0 +1,111 @@
+[gd_scene load_steps=14 format=3 uid="uid://n05emk7dyeh1"]
+
+[ext_resource type="Script" uid="uid://c4fbmyx76rcfu" path="res://scenes/wall.gd" id="1_k0juu"]
+[ext_resource type="PackedScene" uid="uid://bo0m7845gnthh" path="res://objects/player/player.tscn" id="1_nnsk1"]
+[ext_resource type="PackedScene" uid="uid://bukvfkbpktlfk" path="res://objects/hook/hook.tscn" id="2_rwgxs"]
+[ext_resource type="Texture2D" uid="uid://bx4fsvlr1nx8q" path="res://assets/big-circle.png" id="5_71j4m"]
+[ext_resource type="Texture2D" uid="uid://b82mflhxogewd" path="res://assets/bg-cover.png" id="6_qfnet"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_k0juu"]
+frequency = 0.0266
+fractal_octaves = 2
+
+[sub_resource type="Curve" id="Curve_k0juu"]
+_limits = [-24.0, 24.0, 0.0, 1.0]
+_data = [Vector2(0, 24), 0.0, 0.0, 0, 0, Vector2(0.1, -24), 0.0, 0.0, 0, 0, Vector2(0.2, 24), 0.0, 0.0, 0, 0, Vector2(0.3, -24), 0.0, 0.0, 0, 0, Vector2(0.4, 24), 0.0, 0.0, 0, 0, Vector2(0.5, -24), 0.0, 0.0, 0, 0, Vector2(0.6, 24), 0.0, 0.0, 0, 0, Vector2(0.7, -24), 0.0, 0.0, 0, 0, Vector2(0.8, 24), 0.0, 0.0, 0, 0, Vector2(0.9, -24), 0.0, 0.0, 0, 0, Vector2(1, 24), 0.0, 0.0, 0, 0]
+point_count = 11
+metadata/_snap_enabled = true
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_71j4m"]
+curve_y = SubResource("Curve_k0juu")
+
+[sub_resource type="Curve" id="Curve_qfnet"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="Curve" id="Curve_i7141"]
+_limits = [0.0, 8.0, 0.0, 1.0]
+_data = [Vector2(0, 8), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="Curve" id="Curve_4mrxx"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_7r4gi"]
+curve_x = SubResource("Curve_qfnet")
+curve_y = SubResource("Curve_i7141")
+curve_z = SubResource("Curve_4mrxx")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_w7kh3"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 320, 1)
+spread = 0.0
+initial_velocity_min = 128.0
+initial_velocity_max = 128.0
+directional_velocity_min = 1.0
+directional_velocity_max = 1.0
+directional_velocity_curve = SubResource("CurveXYZTexture_71j4m")
+gravity = Vector3(0, 0, 0)
+scale_min = 0.01
+scale_max = 0.05
+scale_curve = SubResource("CurveXYZTexture_7r4gi")
+
+[node name="World" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 17
+collision_mask = 17
+script = ExtResource("1_k0juu")
+noise = SubResource("FastNoiseLite_k0juu")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+build_mode = 1
+polygon = PackedVector2Array(45, 15, 274, 17, 517, 21, 528, 159, 528, 272, 273, 262, 50, 261, 46, 148)
+
+[node name="Line2D" type="Line2D" parent="StaticBody2D"]
+points = PackedVector2Array(45, 15, 274, 17, 517, 21, 528, 159, 528, 272, 273, 262, 50, 261, 46, 148)
+closed = true
+width = 1.0
+default_color = Color(1, 0.945098, 0.909804, 1)
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.75, 0.75)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Parallax2D"]
+modulate = Color(0.113725, 0.168627, 0.32549, 1)
+z_index = -100
+position = Vector2(-143, 188)
+amount = 128
+texture = ExtResource("5_71j4m")
+lifetime = 10.0
+preprocess = 10.0
+visibility_rect = Rect2(-100, -500, 1000, 1000)
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_w7kh3")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -50
+offset_left = -1078.0
+offset_top = -533.0
+offset_right = 1581.0
+offset_bottom = 857.0
+texture = ExtResource("6_qfnet")
+stretch_mode = 1
+
+[node name="Player" parent="." instance=ExtResource("1_nnsk1")]
+position = Vector2(499, 68)
+
+[node name="Area2D" parent="." instance=ExtResource("2_rwgxs")]
+position = Vector2(497, 68)
+
+[node name="Area2D2" parent="." instance=ExtResource("2_rwgxs")]
+position = Vector2(113, 62)
+
+[node name="Area2D3" parent="." instance=ExtResource("2_rwgxs")]
+position = Vector2(447, 255)
+
+[node name="Area2D4" parent="." instance=ExtResource("2_rwgxs")]
+position = Vector2(119, 247)

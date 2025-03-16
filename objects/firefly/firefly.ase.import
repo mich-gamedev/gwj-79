@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://bd644wgbgfbu2"
+path="res://.godot/imported/firefly.ase-340f88b0250c0e717c3be1ba5fa893e5.res"
+
+[deps]
+
+source_file="res://objects/firefly/firefly.ase"
+dest_files=["res://.godot/imported/firefly.ase-340f88b0250c0e717c3be1ba5fa893e5.res"]
+
+[params]
+

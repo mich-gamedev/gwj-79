@@ -1,0 +1,67 @@
+[gd_scene load_steps=8 format=4 uid="uid://60e4fwp4phsw"]
+
+[ext_resource type="Script" uid="uid://b222yayvh46rr" path="res://objects/animations/free_anim.gd" id="1_jjr3n"]
+
+[sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_jjr3n"]
+_data = PackedByteArray("AAADAAUAAAABAAAAQAAAAEAAAADUAAAAUklGRswAAABXRUJQVlA4TMAAAAAvP8APECcgECBTfqRIIhAgjNhTIZ5MwDK2esNn/gMA1Cv9AHZsu3EboANcEQ1oaUAlYIb9l4U3cNbPiP5PgP3Gg7H0qWLIKiVcIAFvFULUeV20SGhZJRzeidrpnTi3x4mwaR2FcbT23imkxwz702pvepWOkt46izjpkGBtNhzeKUys57qwLi5EAd6SSbfZSpuNYip9CvtnxRVceVFOiaUgxXJBj5chY00FU//fwRRrKF6mlg+xTMSVF+WUcAXpmwc=")
+size_override = Vector2(64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p3ycr"]
+atlas = SubResource("PortableCompressedTexture2D_jjr3n")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y3a6x"]
+atlas = SubResource("PortableCompressedTexture2D_jjr3n")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4nvmv"]
+atlas = SubResource("PortableCompressedTexture2D_jjr3n")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gu7y2"]
+atlas = SubResource("PortableCompressedTexture2D_jjr3n")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fymw8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p3ycr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y3a6x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4nvmv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gu7y2")
+}],
+"loop": false,
+"name": &"default",
+"speed": 13.0
+}]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+z_index = 20
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_fymw8")
+autoplay = "default"
+frame = 3
+frame_progress = 1.0
+script = ExtResource("1_jjr3n")
+metadata/_aseprite_wizard_interface_config_ = {
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"embed_tex": true,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"should_round_fps": true,
+"slice": "",
+"source": "res://objects/player/slam.ase"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "90125114908e2cba350762a28854391e"
