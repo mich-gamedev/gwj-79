@@ -6,6 +6,13 @@ var twn_recoil: Tween
 @onready var hook_outer: Node2D = $"../HookOuter"
 @onready var hook_inner: Node2D = $"../HookInner"
 
+func _ready() -> void:
+	hook_inner.scale = Vector2.ZERO
+	hook_outer.scale = Vector2.ZERO
+	var twn = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK).set_parallel()
+	twn.tween_property(hook_inner, ^"scale", Vector2.ONE, 0.15)
+	twn.tween_property(hook_outer, ^"scale", Vector2.ONE, 0.3)
+
 func _on_area_2d_hook_released(_player: Player, direction: Vector2) -> void:
 	hook_inner.z_index = 0
 	hook_inner.rotation = snapped(direction.angle(), PI/2)

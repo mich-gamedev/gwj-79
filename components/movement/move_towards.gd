@@ -27,6 +27,5 @@ func _physics_process(delta: float) -> void:
 		if body is CharacterBody2D:
 			body.velocity = body.velocity.move_toward(direction.rotated(offset) * speed, accel * delta)
 		else:
-			print(body_vel)
 			body_vel = body_vel.move_toward(direction.rotated(offset) * speed, accel * delta)
 			body.position += body_vel * delta

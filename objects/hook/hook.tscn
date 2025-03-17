@@ -73,7 +73,7 @@ _data = {
 &"release": SubResource("Animation_4og6r")
 }
 
-[node name="Area2D" type="Area2D" groups=["hook"]]
+[node name="Area2D" type="Area2D" groups=["hook", "world_hook"]]
 script = ExtResource("1_r55oi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

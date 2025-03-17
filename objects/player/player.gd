@@ -12,6 +12,7 @@ static var cam: Camera2D
 @onready var test: CharacterBody2D = $Test
 @onready var preview: Line2D = $Preview
 @onready var gpu_wake: GPUParticles2D = $GPUWake
+@onready var dmg_shape: CollisionShape2D = $OnHookHitbox/CollisionShape2D
 
 var twn_reflect: Tween
 
@@ -31,6 +32,7 @@ func _physics_process(delta: float) -> void:
 	gpu_wake.emitting = !is_instance_valid(latched_hook)
 	gpu_wake.rotation = velocity.angle()
 	gpu_wake.global_position = global_position
+	dmg_shape.disabled = !is_instance_valid(latched_hook)
 	if !latched_hook:
 		cam.position = velocity.normalized() * 32
 		preview.hide()
@@ -69,7 +71,7 @@ func _physics_process(delta: float) -> void:
 				test.velocity = test.velocity.bounce(test_coll.get_normal())
 				bounces += 1
 			preview.add_point(test.global_position)
-			
+
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			latched_hook.hook_released.emit(self, get_local_mouse_position().normalized())
 			latched_hook = null
@@ -86,7 +88,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		#spark.global_rotation = velocity.angle()
 		#spark.reset_physics_interpolation()
 		if twn_reflect: twn_reflect.kill()
-		
+
 
 		sprite.scale = Vector2.ONE
 

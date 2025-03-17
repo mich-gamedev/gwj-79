@@ -25,7 +25,6 @@ func _physics_process(delta: float) -> void:
 	#velocity = velocity.move_toward(Vector2.ZERO, deceleration * delta)
 	velocity += (halfway_vec.normalized() * ((velocity.length_squared()) / (halfway_vec.length()))) * delta
 	velocity = velocity.normalized() * 160
-	print(velocity)
 	queue_redraw()
 
 	var coll := move_and_collide(velocity * delta)

@@ -1,9 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://bo0m7845gnthh"]
+[gd_scene load_steps=18 format=3 uid="uid://bo0m7845gnthh"]
 
 [ext_resource type="Script" uid="uid://b4x4meja20pwd" path="res://objects/player/player.gd" id="1_cqmt1"]
 [ext_resource type="Script" uid="uid://bjlasgm2f4gcd" path="res://objects/player/sprite.gd" id="2_g7ett"]
 [ext_resource type="Texture2D" uid="uid://bx4fsvlr1nx8q" path="res://assets/big-circle.png" id="3_ssrue"]
 [ext_resource type="Script" uid="uid://cqidagg8vla5p" path="res://components/health/hurtbox.gd" id="4_jnjyq"]
+[ext_resource type="Script" uid="uid://b8lw0lyjc35h0" path="res://components/health/hitbox.gd" id="5_xkryw"]
+[ext_resource type="Script" uid="uid://hcck4nf3qor6" path="res://components/health/health.gd" id="6_ow0dq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5lq1w"]
 radius = 3.0
@@ -58,6 +60,9 @@ collision_bounce = 0.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gnkmh"]
 radius = 3.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_m4kly"]
+radius = 4.0
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
@@ -127,6 +132,21 @@ debug_color = Color(0.992157, 0, 0.27451, 0)
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
 position_smoothing_speed = 3.0
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("6_ow0dq")
+max_health = 5.0
+starting_health = 5.0
+invincibility_time = 0.25
+metadata/_custom_type_script = "uid://hcck4nf3qor6"
+
+[node name="OnHookHitbox" type="Area2D" parent="." node_paths=PackedStringArray("health")]
+script = ExtResource("5_xkryw")
+health = NodePath("../Health")
+metadata/_custom_type_script = "uid://b8lw0lyjc35h0"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OnHookHitbox"]
+shape = SubResource("CircleShape2D_m4kly")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="hitbox_entered" from="Hurtbox" to="." method="_on_hurtbox_hitbox_entered"]

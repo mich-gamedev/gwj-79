@@ -15,6 +15,10 @@ run/main_scene="uid://n05emk7dyeh1"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+WaveManager="*res://components/wave/sngl_wave_manager.gd"
+
 [display]
 
 window/size/viewport_width=640
@@ -28,9 +32,21 @@ window/stretch/aspect="expand"
 
 enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg")
 
+[file_customization]
+
+folder_colors={
+"res://addons/": "gray",
+"res://assets/": "red",
+"res://components/": "orange",
+"res://objects/": "yellow",
+"res://resources/": "green",
+"res://scenes/": "teal"
+}
+
 [global_group]
 
 hook=""
+enemy=""
 
 [gui]
 

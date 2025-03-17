@@ -8,7 +8,7 @@ const WAVE = preload("res://objects/animations/wave.tscn")
 @onready var health: Health = $Hitbox/Health
 
 func _ready() -> void:
-	move_body_towards.offset = deg_to_rad(randf_range(-30,30))
+	move_body_towards.offset = deg_to_rad(randf_range(-60,60))
 
 func _on_animated_sprite_2d_frame_changed() -> void:
 	if sprite.frame == 1:

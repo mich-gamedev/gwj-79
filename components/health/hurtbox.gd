@@ -16,3 +16,5 @@ func harm_hitbox(area: Area2D) -> void:
 		hitbox_entered.emit(area)
 		area.hurtbox_entered.emit(self)
 		(area.health as Health).harm(damage)
+		if (area as Hitbox).team == Health.Team.ENEMY:
+			WaveManager.enemy_died.emit()
