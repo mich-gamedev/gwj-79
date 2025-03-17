@@ -27,7 +27,7 @@ func _on_wave_started() -> void:
 	for i in [1,1,1,1,2,2,2,3].pick_random():
 		var inst = HOOK.instantiate()
 		add_child(inst)
-		var rect = Rect2(wall.rect).grow(64)
+		var rect = Rect2(wall.rect).grow(96)
 		inst.global_position = wall.to_global(Vector2(randf_range(rect.position.x, rect.end.x), randf_range(rect.position.y, rect.end.y)))
 		inst.reset_physics_interpolation()
 		await get_tree().create_timer(0.1).timeout
