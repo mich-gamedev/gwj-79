@@ -1,0 +1,72 @@
+[gd_scene load_steps=12 format=3 uid="uid://c56ohf5hav55x"]
+
+[ext_resource type="Script" uid="uid://cehiwpc5l28cs" path="res://objects/glass_cannon/glass_cannon.gd" id="1_iaq51"]
+[ext_resource type="Script" uid="uid://dkrdcai6c8yc8" path="res://components/movement/move_towards.gd" id="1_kb3g6"]
+[ext_resource type="Script" uid="uid://dbwfab24e5om2" path="res://components/movement/collide_and_bounce.gd" id="2_iaq51"]
+[ext_resource type="Script" uid="uid://b8lw0lyjc35h0" path="res://components/health/hitbox.gd" id="3_p8204"]
+[ext_resource type="Script" uid="uid://hcck4nf3qor6" path="res://components/health/health.gd" id="4_jomo6"]
+[ext_resource type="Script" uid="uid://cqidagg8vla5p" path="res://components/health/hurtbox.gd" id="5_bw6g1"]
+[ext_resource type="Script" uid="uid://nw0wwhtqeprb" path="res://components/health/free_on_death.gd" id="6_p8204"]
+[ext_resource type="Texture2D" uid="uid://nwouajhxmgq1" path="res://objects/glass_cannon/glass_cannon.png" id="6_wxfbm"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5or4p"]
+radius = 7.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_or41v"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ksdfs"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 0
+script = ExtResource("1_iaq51")
+
+[node name="MoveBodyTowards" type="Node" parent="." node_paths=PackedStringArray("body")]
+script = ExtResource("1_kb3g6")
+speed = 48.0
+accel = 96.0
+offset = 1.8326
+body = NodePath("..")
+metadata/_custom_type_script = "uid://dkrdcai6c8yc8"
+
+[node name="CollideAndBounce" type="Node" parent="." node_paths=PackedStringArray("body")]
+script = ExtResource("2_iaq51")
+body = NodePath("..")
+metadata/_custom_type_script = "uid://dbwfab24e5om2"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_5or4p")
+
+[node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("health")]
+script = ExtResource("3_p8204")
+health = NodePath("Health")
+team = 1
+metadata/_custom_type_script = "uid://b8lw0lyjc35h0"
+
+[node name="Health" type="Node" parent="Hitbox"]
+script = ExtResource("4_jomo6")
+has_invincibility = true
+metadata/_custom_type_script = "uid://hcck4nf3qor6"
+
+[node name="FreeOnDeath" type="Node" parent="Hitbox/Health" node_paths=PackedStringArray("health", "actor")]
+script = ExtResource("6_p8204")
+health = NodePath("..")
+actor = NodePath("../../..")
+delay = 0.05
+metadata/_custom_type_script = "uid://nw0wwhtqeprb"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_or41v")
+debug_color = Color(0.996078, 0, 0.184314, 0)
+
+[node name="Hurtbox" type="Area2D" parent="."]
+script = ExtResource("5_bw6g1")
+metadata/_custom_type_script = "uid://cqidagg8vla5p"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_ksdfs")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("6_wxfbm")
+offset = Vector2(2, 0)
+
+[connection signal="died" from="Hitbox/Health" to="." method="_on_health_died"]

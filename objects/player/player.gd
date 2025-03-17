@@ -65,8 +65,9 @@ func _physics_process(delta: float) -> void:
 		test.velocity = get_local_mouse_position().normalized() * base_speed
 		global_position = latched_hook.global_position
 		var bounces: int
+		preview.add_point(test.global_position)
 		while bounces < 2:
-			var test_coll = test.move_and_collide(test.velocity/60)
+			var test_coll = test.move_and_collide(test.velocity)
 			if test_coll:
 				test.velocity = test.velocity.bounce(test_coll.get_normal())
 				bounces += 1

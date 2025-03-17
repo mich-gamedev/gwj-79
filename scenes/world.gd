@@ -19,7 +19,7 @@ func _on_enemy_died() -> void:
 func _on_wave_started() -> void:
 	print("wave started")
 	WaveManager.spawn_count += [0,1,1,1,2,2,3].pick_random()
-	for i in [0,0,1,1,1,1,2,2,3,4].pick_random():
+	for i in [0,0,1,1,1,1,2,2,2,3,3,4,4].pick_random():
 		if get_tree().get_nodes_in_group(&"world_hook").size() > 1:
 			var hook_to_free := get_tree().get_first_node_in_group(&"world_hook")
 			if hook_to_free != Player.node.latched_hook:

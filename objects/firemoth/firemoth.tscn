@@ -1,0 +1,151 @@
+[gd_scene load_steps=19 format=4 uid="uid://fopwvujgrddk"]
+
+[ext_resource type="Script" uid="uid://bylp4grob856o" path="res://objects/firemoth/firemoth.gd" id="1_uyrny"]
+[ext_resource type="Script" uid="uid://dbwfab24e5om2" path="res://components/movement/collide_and_bounce.gd" id="2_8dia6"]
+[ext_resource type="Script" uid="uid://b8lw0lyjc35h0" path="res://components/health/hitbox.gd" id="3_p521p"]
+[ext_resource type="Script" uid="uid://hcck4nf3qor6" path="res://components/health/health.gd" id="4_4a83l"]
+[ext_resource type="Script" uid="uid://nw0wwhtqeprb" path="res://components/health/free_on_death.gd" id="5_4a83l"]
+[ext_resource type="Script" uid="uid://cqidagg8vla5p" path="res://components/health/hurtbox.gd" id="5_s2l8i"]
+
+[sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_amjqg"]
+_data = PackedByteArray("AAADAAUAAAABAAAAYAAAAGAAAAD0AQAAUklGRuwBAABXRUJQVlA4TN8BAAAvX8AXECcgECAcqPDf5kZAUPTcdEICQvLUdzPmPwDwp5QgO7bduq3EDrgDNBB3gGEFnEH/RdEApCC5z6+I/jtw28aRtNcrZzf7ievfYJswWh2TtRidDhYsGh3TAGT0ORDcMfocZhLghQNAkdJVO+Zpq4mM2rG5c1A5BNxNrHCYuEPl2Fq5JsjewQXjqRvKVkzVWKm9b4ouynCnjpsnyZV6YWjYr7xi2RGjchFvjA16WlGWHfHeRnZMeff5kefg8+PdJDsIbCscUX4yADnF3ZTnzkJUDoLjNeIczxfpsEUHNh46GPE8OYDQkuiwdJgsO8rJh9oQHdlSOa7/p9uE0eqYrMXodLBg0eiYBiDjqQOyA5JEcMfIruyILpPsMImZCUBWSHaYhMgOQnDaaiJpHZVDHjpEwD0sJ5YdaR2Vg+Ta2x0MuXfE3Z4d4ypTzeuQ7DDKVMtwJzcrx4hFR5WhWzeS150d43rmMDE2KGLpR5PjKO4c93PxZG7uHPdz+HVH+5x/w3lUQw7j647/qtuE0Xxdi9H5CVZ4xmhqiQGIra4EwR3D2jKTcNcWp60mwrjanuJu7/u29naH7lRbw53ODN26kb7JMjYocrWV56RxzA14P2+8W7D4hvOo93Kuf4nbBQA=")
+size_override = Vector2(96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c0pyp"]
+atlas = SubResource("PortableCompressedTexture2D_amjqg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uyrny"]
+atlas = SubResource("PortableCompressedTexture2D_amjqg")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8dia6"]
+atlas = SubResource("PortableCompressedTexture2D_amjqg")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hnhlj"]
+atlas = SubResource("PortableCompressedTexture2D_amjqg")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p521p"]
+atlas = SubResource("PortableCompressedTexture2D_amjqg")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4a83l"]
+atlas = SubResource("PortableCompressedTexture2D_amjqg")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s2l8i"]
+atlas = SubResource("PortableCompressedTexture2D_amjqg")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oantf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c0pyp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uyrny")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8dia6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hnhlj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p521p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4a83l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s2l8i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4a83l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s2l8i")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hnhlj"]
+radius = 9.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oantf"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xsrj1"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 0
+script = ExtResource("1_uyrny")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_oantf")
+autoplay = "default"
+frame_progress = 0.702377
+offset = Vector2(2, -1)
+metadata/_aseprite_wizard_interface_config_ = {
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"embed_tex": true,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"should_round_fps": true,
+"slice": "",
+"source": "res://objects/firemoth/firemoth.ase"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "2782e3bfa090902c9c59b631be864724"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_hnhlj")
+
+[node name="CollideAndBounce" type="Node" parent="." node_paths=PackedStringArray("body")]
+script = ExtResource("2_8dia6")
+body = NodePath("..")
+bounce_strength = 0.75
+metadata/_custom_type_script = "uid://dbwfab24e5om2"
+
+[node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("health")]
+script = ExtResource("3_p521p")
+health = NodePath("Health")
+team = 1
+metadata/_custom_type_script = "uid://b8lw0lyjc35h0"
+
+[node name="Health" type="Node" parent="Hitbox"]
+script = ExtResource("4_4a83l")
+max_health = 3.0
+starting_health = 3.0
+has_invincibility = true
+metadata/_custom_type_script = "uid://hcck4nf3qor6"
+
+[node name="FreeOnDeath" type="Node" parent="Hitbox/Health" node_paths=PackedStringArray("health", "actor")]
+script = ExtResource("5_4a83l")
+health = NodePath("..")
+actor = NodePath("../../..")
+delay = 0.05
+metadata/_custom_type_script = "uid://nw0wwhtqeprb"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_oantf")
+debug_color = Color(0.996078, 0, 0.184314, 0)
+
+[node name="Hurtbox" type="Area2D" parent="."]
+script = ExtResource("5_s2l8i")
+metadata/_custom_type_script = "uid://cqidagg8vla5p"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_xsrj1")
+
+[connection signal="frame_changed" from="AnimatedSprite2D" to="." method="_on_frame_changed"]
+[connection signal="died" from="Hitbox/Health" to="." method="_on_health_died"]
