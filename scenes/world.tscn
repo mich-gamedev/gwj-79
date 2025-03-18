@@ -58,9 +58,11 @@ scale_curve = SubResource("CurveXYZTexture_7r4gi")
 [node name="World" type="Node2D"]
 script = ExtResource("1_qfnet")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-collision_layer = 17
-collision_mask = 17
+[node name="StaticBody2D" type="AnimatableBody2D" parent="."]
+collision_layer = 25
+collision_mask = 25
+collision_priority = 1000.0
+sync_to_physics = false
 script = ExtResource("1_k0juu")
 noise = SubResource("FastNoiseLite_k0juu")
 

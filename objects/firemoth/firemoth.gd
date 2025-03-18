@@ -2,11 +2,11 @@ extends CharacterBody2D
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
-const HOOK = preload("res://objects/hook/hook.tscn")
+const HOOK = preload("res://objects/firemoth/hook.tscn")
 
 func _physics_process(delta: float) -> void:
-	velocity.y += 64 * delta
-	velocity.x = move_toward(velocity.x, 0.0, 64 * delta)
+	velocity.y += 48 * delta
+	velocity.x = move_toward(velocity.x, 0.0, 128 * delta)
 
 func _on_frame_changed() -> void:
 	if sprite.frame == 0:

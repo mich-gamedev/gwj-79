@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EnemySpawnRate" load_steps=4 format=3 uid="uid://dlvnbqnmy12y8"]
+
+[ext_resource type="PackedScene" uid="uid://7q5wdli5jl0d" path="res://objects/firefly/firefly.tscn" id="1_37e1r"]
+[ext_resource type="Script" uid="uid://tyqf8eh75lcy" path="res://resources/enemy_spawnrate/enemy_spawnrate.gd" id="1_vixwe"]
+
+[sub_resource type="Curve" id="Curve_ql74n"]
+_limits = [0.0, 1.0, 0.0, 10.0]
+_data = [Vector2(0, 1), 0.0, -0.411536, 0, 0, Vector2(5, 0.3), 0.0, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_enabled = true
+
+[resource]
+script = ExtResource("1_vixwe")
+cost = 1.0
+scene = ExtResource("1_37e1r")
+curve = SubResource("Curve_ql74n")
+metadata/_custom_type_script = "uid://tyqf8eh75lcy"

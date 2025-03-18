@@ -1,4 +1,4 @@
-extends StaticBody2D
+extends AnimatableBody2D
 
 @export var noise: FastNoiseLite
 
@@ -15,6 +15,7 @@ const CORNER_PIECE = preload("res://assets/corner-piece.png")
 
 func _physics_process(delta: float) -> void:
 	time += delta
+	rect = Rect2()
 	for i in get_tree().get_nodes_in_group(&"hook"):
 		if rect == Rect2(): rect = Rect2(to_local(i.global_position), Vector2())
 		rect = rect.expand(to_local(i.global_position + Vector2(32,32)))
@@ -35,17 +36,10 @@ func _physics_process(delta: float) -> void:
 
 	for i in new_points.size():
 		new_points[i] += Vector2(noise.get_noise_2dv(new_points[i] + (Vector2.ONE * time)), noise.get_noise_2dv(-new_points[i]  + (Vector2.ONE * time))) * 24
-		last_points[i] = last_points[i].lerp(new_points[i], 1 - 0.00001 ** delta)
+		last_points[i] = last_points[i].lerp(new_points[i], 1 - 0.001 ** delta)
 	polygon.polygon = last_points
 	line.points = last_points
 	queue_redraw()
-
-func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton: if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-		var inst = HOOK.instantiate()
-		get_tree().current_scene.add_child(inst)
-		inst.global_position = get_global_mouse_position()
-		inst.reset_physics_interpolation()
 
 func _draw() -> void:
 	for i in last_points:

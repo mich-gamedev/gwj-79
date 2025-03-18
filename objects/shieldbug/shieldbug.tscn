@@ -1,5 +1,6 @@
-[gd_scene load_steps=16 format=3 uid="uid://36y4x3mi32lf"]
+[gd_scene load_steps=17 format=3 uid="uid://36y4x3mi32lf"]
 
+[ext_resource type="Script" uid="uid://bb4yol5slvtqm" path="res://objects/shieldbug/shieldbug.gd" id="1_0525c"]
 [ext_resource type="Script" uid="uid://dkrdcai6c8yc8" path="res://components/movement/move_towards.gd" id="1_vhop5"]
 [ext_resource type="Script" uid="uid://dbwfab24e5om2" path="res://components/movement/collide_and_bounce.gd" id="2_8ywn6"]
 [ext_resource type="Script" uid="uid://b8lw0lyjc35h0" path="res://components/health/hitbox.gd" id="3_0525c"]
@@ -17,62 +18,7 @@ radius = 7.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_ksdfs"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fbp6s"]
-resource_local_to_scene = true
-radius = 0.01
-
-[sub_resource type="Animation" id="Animation_78bvd"]
-resource_name = "pulse"
-length = 2.0
-loop_mode = 1
-step = 0.0833333
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("RingDraw:width")
-tracks/0/interp = 1
-tracks/0/loop_wrap = false
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(0.5, 1),
-"update": 0,
-"values": [2.0, 0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("RingDraw:radius")
-tracks/1/interp = 1
-tracks/1/loop_wrap = false
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(0.5, 1),
-"update": 0,
-"values": [0.0, 48.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("RingDraw/StaticBody2D/CollisionShape2D:shape:radius")
-tracks/2/interp = 1
-tracks/2/loop_wrap = false
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(0.5, 1),
-"update": 0,
-"values": [0.01, 48.0]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("RingDraw/StaticBody2D/CollisionShape2D:disabled")
-tracks/3/interp = 1
-tracks/3/loop_wrap = false
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
+radius = 48.0
 
 [sub_resource type="Animation" id="Animation_3pfyv"]
 length = 0.001
@@ -103,26 +49,94 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("RingDraw/StaticBody2D/CollisionShape2D:shape:radius")
+tracks/2/path = NodePath("RingDraw/Area2D/CollisionShape2D:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.01]
+"update": 1,
+"values": [false]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("RingDraw/StaticBody2D/CollisionShape2D:disabled")
+tracks/3/path = NodePath("Sprite2D:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_78bvd"]
+resource_name = "pulse"
+length = 1.5
+loop_mode = 1
+step = 0.0833333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RingDraw:width")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [2.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RingDraw:radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.105112, 1),
+"update": 0,
+"values": [0.0, 48.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("RingDraw/Area2D/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = false
+tracks/2/keys = {
+"times": PackedFloat32Array(0.0833333, 0.666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 0]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"reset_sonic_boom"
+}]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7ulae"]
@@ -133,6 +147,7 @@ _data = {
 
 [node name="CharacterBody2D" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 0
+script = ExtResource("1_0525c")
 
 [node name="MoveBodyTowards" type="Node" parent="." node_paths=PackedStringArray("body")]
 script = ExtResource("1_vhop5")
@@ -180,18 +195,21 @@ shape = SubResource("CircleShape2D_ksdfs")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("6_araib")
+hframes = 2
 
 [node name="RingDraw" type="Node2D" parent="."]
+top_level = true
 script = ExtResource("7_2p1yg")
 width = 2.0
 radius = 0.0
 metadata/_custom_type_script = "uid://k8hd30moenix"
 
-[node name="StaticBody2D" type="StaticBody2D" parent="RingDraw"]
-collision_layer = 4
-collision_mask = 0
+[node name="Area2D" type="Area2D" parent="RingDraw"]
+collision_layer = 0
+collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RingDraw/StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RingDraw/Area2D"]
+visible = false
 shape = SubResource("CircleShape2D_fbp6s")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -201,3 +219,4 @@ libraries = {
 autoplay = "pulse"
 
 [connection signal="died" from="Hitbox/Health" to="." method="_on_health_died"]
+[connection signal="body_entered" from="RingDraw/Area2D" to="." method="_on_area_2d_body_entered"]

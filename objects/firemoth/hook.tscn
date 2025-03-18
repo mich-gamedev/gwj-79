@@ -1,13 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://bukvfkbpktlfk"]
+[gd_scene load_steps=10 format=3 uid="uid://tru3ai2wodm7"]
 
-[ext_resource type="Script" uid="uid://bxk7om8m1rdnd" path="res://objects/hook/hook.gd" id="1_r55oi"]
-[ext_resource type="Texture2D" uid="uid://btfdmr8mmwlwn" path="res://objects/hook/hook_outer.png" id="2_8pyki"]
-[ext_resource type="Texture2D" uid="uid://oac3bmvtuq2e" path="res://objects/hook/hook_inner.png" id="3_qlyp7"]
-[ext_resource type="Script" uid="uid://dwql1jjhox6r2" path="res://objects/hook/animation_player.gd" id="4_qlyp7"]
-[ext_resource type="Script" uid="uid://dkrdcai6c8yc8" path="res://components/movement/move_towards.gd" id="5_4og6r"]
+[ext_resource type="Script" uid="uid://b2s01mfry2t0f" path="res://objects/firemoth/hook.gd" id="1_yrvmq"]
+[ext_resource type="Texture2D" uid="uid://cnyhcj6la6jiu" path="res://objects/firemoth/hook_outer.png" id="2_yrvmq"]
+[ext_resource type="Texture2D" uid="uid://cq4x26ftmltnu" path="res://objects/firemoth/hook_inner.png" id="3_w12tl"]
+[ext_resource type="Script" uid="uid://dwql1jjhox6r2" path="res://objects/hook/animation_player.gd" id="4_djh0n"]
+[ext_resource type="Script" uid="uid://dkrdcai6c8yc8" path="res://components/movement/move_towards.gd" id="5_n2aq8"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_4og6r"]
-radius = 12.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_pncjk"]
+radius = 8.0
 
 [sub_resource type="Animation" id="Animation_3mivm"]
 length = 0.001
@@ -74,32 +74,32 @@ _data = {
 }
 
 [node name="Area2D" type="Area2D" groups=["hook", "world_hook"]]
-script = ExtResource("1_r55oi")
+script = ExtResource("1_yrvmq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_4og6r")
+shape = SubResource("CircleShape2D_pncjk")
 debug_color = Color(0.862745, 0.0980392, 0.835294, 0)
 
 [node name="HookOuter" type="Node2D" parent="."]
 
 [node name="Above" type="Sprite2D" parent="HookOuter"]
 z_index = 10
-texture = ExtResource("2_8pyki")
+texture = ExtResource("2_yrvmq")
 
 [node name="Below" type="Sprite2D" parent="HookOuter"]
 z_index = -2
-texture = ExtResource("2_8pyki")
+texture = ExtResource("2_yrvmq")
 flip_h = true
 
 [node name="HookInner" type="Node2D" parent="."]
 
 [node name="Above" type="Sprite2D" parent="HookInner"]
 z_index = 9
-texture = ExtResource("3_qlyp7")
+texture = ExtResource("3_w12tl")
 
 [node name="Below" type="Sprite2D" parent="HookInner"]
 z_index = -1
-texture = ExtResource("3_qlyp7")
+texture = ExtResource("3_w12tl")
 flip_h = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -108,13 +108,13 @@ libraries = {
 }
 autoplay = "release"
 speed_scale = 0.0
-script = ExtResource("4_qlyp7")
+script = ExtResource("4_djh0n")
 
 [node name="Target" type="Node2D" parent="."]
 top_level = true
 
 [node name="MoveBodyTowards" type="Node" parent="." node_paths=PackedStringArray("body", "target_node")]
-script = ExtResource("5_4og6r")
+script = ExtResource("5_n2aq8")
 speed = 24.0
 accel = 16.0
 offset = 0.1309
@@ -123,4 +123,5 @@ target_node = NodePath("../Target")
 metadata/_custom_type_script = "uid://dkrdcai6c8yc8"
 
 [connection signal="hook_latched" from="." to="AnimationPlayer" method="_on_area_2d_hook_latched"]
+[connection signal="hook_released" from="." to="." method="_on_hook_released"]
 [connection signal="hook_released" from="." to="AnimationPlayer" method="_on_area_2d_hook_released"]

@@ -14,12 +14,13 @@ var parried: bool = false
 func _physics_process(delta: float) -> void:
 	var coll_info = move_and_collide(velocity * delta)
 	if coll_info:
+		print("bullet bounced")
 		bounced.emit()
 		if bounces_left:
 			bounces_left -= 1
 			velocity = velocity.bounce(coll_info.get_normal())
 		else:
-			if parried: queue_free()
+			if parried or pool_name.is_empty(): queue_free()
 			else: ObjectPool.stash(self, pool_name)
 
 @warning_ignore("unused_parameter", "shadowed_variable")

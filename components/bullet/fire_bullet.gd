@@ -27,6 +27,8 @@ class_name FireBullet
 
 @onready var proj_space := range / float(amount)
 
+signal bullet_fired(bullet: Bullet)
+
 func _ready() -> void:
 	if timer and cooldown:
 		timer.one_shot = true
@@ -40,7 +42,12 @@ func fire_bullet(direction:float) -> void:
 		if is_instance_valid(timer):
 			timer.start()
 		for i in amount:
-			var spawned_bullet = pool.grab_available_object()
+			var spawned_bullet: Bullet
+			if pool:
+				spawned_bullet = pool.grab_available_object()
+			elif bullet:
+				spawned_bullet = bullet.instantiate()
+				get_tree().current_scene.add_child.call_deferred(spawned_bullet)
 			spawned_bullet.global_position = global_position
 			if spawned_bullet is Bullet:
 				(spawned_bullet.hurtbox as Hurtbox).damage = damage
@@ -49,3 +56,4 @@ func fire_bullet(direction:float) -> void:
 					spawned_bullet.velocity = Vector2.from_angle(new_angle) * (speed - randf_range(0, random_length))
 				else:
 					spawned_bullet.velocity = Vector2.from_angle(direction + randf_range(-random_angle, random_angle)) * (speed - randf_range(0, random_length))
+				bullet_fired.emit(spawned_bullet)

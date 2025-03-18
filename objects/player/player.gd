@@ -20,6 +20,9 @@ var latched_hook: Hook
 var twn_latch: Tween
 var twn_pulse: Tween
 
+signal hook_latched(hook: Hook)
+signal hook_released
+
 const SLAM_SPARK = preload("res://objects/animations/slam_spark.tscn")
 const WAVE = preload("res://objects/animations/wave.tscn")
 func _ready() -> void:
@@ -78,11 +81,13 @@ func _physics_process(delta: float) -> void:
 			latched_hook = null
 			velocity = get_local_mouse_position().normalized() * base_speed
 			twn_pulse.kill()
+			hook_released.emit()
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if !latched_hook and area is Hook:
 		latched_hook = area
 		area.hook_latched.emit(self)
+		hook_latched.emit(area)
 		#var spark = SLAM_SPARK.instantiate()
 		#get_tree().current_scene.add_child(spark)
 		#spark.global_position = area.global_position
