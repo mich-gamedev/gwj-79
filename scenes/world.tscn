@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://n05emk7dyeh1"]
+[gd_scene load_steps=19 format=3 uid="uid://n05emk7dyeh1"]
 
 [ext_resource type="Script" uid="uid://c4fbmyx76rcfu" path="res://scenes/wall.gd" id="1_k0juu"]
 [ext_resource type="PackedScene" uid="uid://bo0m7845gnthh" path="res://objects/player/player.tscn" id="1_nnsk1"]
@@ -10,6 +10,14 @@
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_k0juu"]
 frequency = 0.0266
 fractal_octaves = 2
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_qfnet"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_i7141"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_4mrxx"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_7r4gi"]
 
 [sub_resource type="Curve" id="Curve_k0juu"]
 _limits = [-24.0, 24.0, 0.0, 1.0]
@@ -66,16 +74,24 @@ sync_to_physics = false
 script = ExtResource("1_k0juu")
 noise = SubResource("FastNoiseLite_k0juu")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
-build_mode = 1
-polygon = PackedVector2Array(45, 15, 274, 17, 517, 21, 528, 159, 528, 272, 273, 262, 50, 261, 46, 148)
-
 [node name="Line2D" type="Line2D" parent="StaticBody2D"]
 show_behind_parent = true
 points = PackedVector2Array(45, 15, 274, 17, 517, 21, 528, 159, 528, 272, 273, 262, 50, 261, 46, 148)
 closed = true
 width = 1.0
 default_color = Color(1, 0.945098, 0.909804, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_qfnet")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_i7141")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_4mrxx")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_7r4gi")
 
 [node name="Parallax2D" type="Parallax2D" parent="."]
 scroll_scale = Vector2(0.75, 0.75)

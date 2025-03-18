@@ -13,13 +13,14 @@ const enemy_list: Array[String] = [
 var spawn_count: int = randi_range(1, 2)
 var wave_idx: int = -1:
 	set(v):
+		print("changing wave_idx to %d" % wave_idx)
 		if v != wave_idx:
 			wave_idx = v
 			rng_dict.clear()
 			for path in enemy_list:
-				print(path)
 				var i : EnemySpawnRate = load(path)
 				rng_dict[i] = i.curve.sample_baked(wave_idx)
+			print(rng_dict)
 
 var rng := RandomNumberGenerator.new()
 var rng_dict: Dictionary

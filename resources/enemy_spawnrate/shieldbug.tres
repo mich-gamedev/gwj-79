@@ -1,11 +1,11 @@
 [gd_resource type="Resource" script_class="EnemySpawnRate" load_steps=4 format=3 uid="uid://ueh7xrri866y"]
 
-[ext_resource type="PackedScene" uid="uid://7q5wdli5jl0d" path="res://objects/firefly/firefly.tscn" id="1_xcxwc"]
+[ext_resource type="PackedScene" uid="uid://36y4x3mi32lf" path="res://objects/shieldbug/shieldbug.tscn" id="1_xcxwc"]
 [ext_resource type="Script" uid="uid://tyqf8eh75lcy" path="res://resources/enemy_spawnrate/enemy_spawnrate.gd" id="2_f8nib"]
 
 [sub_resource type="Curve" id="Curve_ql74n"]
 _limits = [0.0, 1.0, 0.0, 10.0]
-_data = [Vector2(0, 0), 0.0, 0.0105315, 0, 0, Vector2(3, 0.8), -0.558278, 0.0, 0, 0]
+_data = [Vector2(3, 0), 0.0, 0.508237, 0, 0, Vector2(8, 0.4), -0.0596476, 0.0, 0, 0]
 point_count = 2
 metadata/_snap_enabled = true
 

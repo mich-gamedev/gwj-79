@@ -3,7 +3,9 @@ extends AnimatableBody2D
 @export var noise: FastNoiseLite
 
 @onready var line: Line2D = $Line2D
-@onready var polygon: CollisionPolygon2D = $CollisionPolygon2D
+@onready var shapes: Array[CollisionShape2D] = [
+	$CollisionShape2D, $CollisionShape2D2, $CollisionShape2D3, $CollisionShape2D4
+]
 
 var rect: Rect2
 var time: float
@@ -37,7 +39,8 @@ func _physics_process(delta: float) -> void:
 	for i in new_points.size():
 		new_points[i] += Vector2(noise.get_noise_2dv(new_points[i] + (Vector2.ONE * time)), noise.get_noise_2dv(-new_points[i]  + (Vector2.ONE * time))) * 24
 		last_points[i] = last_points[i].lerp(new_points[i], 1 - 0.001 ** delta)
-	polygon.polygon = last_points
+		shapes[i].position = last_points[i]
+		(shapes[i].shape as WorldBoundaryShape2D).normal = last_points[i].direction_to(last_points[wrapi(i + 1, 0, last_points.size())]).rotated(PI/2)
 	line.points = last_points
 	queue_redraw()
 
