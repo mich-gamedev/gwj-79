@@ -216,7 +216,6 @@ shape = SubResource("CircleShape2D_fbp6s")
 libraries = {
 &"": SubResource("AnimationLibrary_7ulae")
 }
-autoplay = "pulse"
 
 [connection signal="died" from="Hitbox/Health" to="." method="_on_health_died"]
 [connection signal="body_entered" from="RingDraw/Area2D" to="." method="_on_area_2d_body_entered"]

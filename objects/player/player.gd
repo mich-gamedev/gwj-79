@@ -12,7 +12,11 @@ static var cam: Camera2D
 @onready var test: CharacterBody2D = $Test
 @onready var preview: Line2D = $Preview
 @onready var gpu_wake: GPUParticles2D = $GPUWake
-@onready var dmg_shape: CollisionShape2D = $OnHookHitbox/CollisionShape2D
+@onready var max_hp: TextureRect = %MaxHP
+@onready var hp: TextureRect = %HP
+@onready var health: Health = $Health
+@onready var dmg_anim: AnimationPlayer = $DamageAnim
+
 
 var twn_reflect: Tween
 
@@ -25,6 +29,7 @@ signal hook_released
 
 const SLAM_SPARK = preload("res://objects/animations/slam_spark.tscn")
 const WAVE = preload("res://objects/animations/wave.tscn")
+
 func _ready() -> void:
 	node = self
 	cam = $Camera2D
@@ -35,7 +40,7 @@ func _physics_process(delta: float) -> void:
 	gpu_wake.emitting = !is_instance_valid(latched_hook)
 	gpu_wake.rotation = velocity.angle()
 	gpu_wake.global_position = global_position
-	dmg_shape.disabled = !is_instance_valid(latched_hook)
+	dmg_anim.play(&"RESET" if health.can_harm else &"pulse")
 	if !latched_hook:
 		cam.position = velocity.normalized() * 32
 		preview.hide()
@@ -95,7 +100,6 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		#spark.reset_physics_interpolation()
 		if twn_reflect: twn_reflect.kill()
 
-
 		sprite.scale = Vector2.ONE
 
 		twn_latch = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SPRING).set_parallel()
@@ -103,7 +107,9 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		twn_pulse = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC).set_loops()
 		twn_pulse.tween_property(sprite, ^"scale", Vector2(1.25, 0.9), 0.125)
 		twn_pulse.tween_property(sprite, ^"scale", Vector2(2, 0.5), 0.125)
-
+		health.can_harm = false
+		await get_tree().create_timer(0.35).timeout
+		health.can_harm = true
 
 func _on_hurtbox_hitbox_entered(hitbox: Hitbox) -> void:
 		get_tree().paused = true
@@ -114,3 +120,15 @@ func _on_hurtbox_hitbox_entered(hitbox: Hitbox) -> void:
 		spark.global_position = hitbox.global_position
 		spark.global_rotation = velocity.angle()
 		spark.reset_physics_interpolation()
+
+var twn_health: Tween
+
+func _on_health_harmed(amount: float) -> void:
+	if twn_health: twn_health.kill()
+	twn_health = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	twn_health.tween_property(hp, ^"size:x", health.health * 16, 0.15)
+
+func _on_health_healed(amount: float) -> void:
+	if twn_health: twn_health.kill()
+	twn_health = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	twn_health.tween_property(hp, ^"size:x", health.health * 16, 0.15)

@@ -24,6 +24,7 @@ func harm(amount: float) -> float:
 		health -= amount
 		if health <= 0:
 			died.emit()
+
 		if has_invincibility:
 			can_harm = false
 			await get_tree().create_timer(invincibility_time).timeout

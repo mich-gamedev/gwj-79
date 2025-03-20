@@ -5,8 +5,8 @@
 
 [sub_resource type="Curve" id="Curve_ql74n"]
 _limits = [0.0, 1.0, 0.0, 10.0]
-_data = [Vector2(0, 1), 0.0, -0.411536, 0, 0, Vector2(5, 0.3), 0.0, 0.0, 0, 0]
-point_count = 2
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(3, 0.8), 0.0, -0.411536, 0, 0, Vector2(8, 0.4), 0.0, 0.0, 0, 0]
+point_count = 3
 metadata/_snap_enabled = true
 
 [resource]

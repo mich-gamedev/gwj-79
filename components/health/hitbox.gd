@@ -6,3 +6,10 @@ class_name Hitbox
 
 @warning_ignore("unused_signal")
 signal hurtbox_entered(hurtbox: Hurtbox)
+
+func _ready() -> void:
+	health.died.connect(_died)
+
+func _died() -> void:
+	if team == Health.Team.ENEMY:
+		WaveManager.enemy_died.emit(health)

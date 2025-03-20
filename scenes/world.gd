@@ -9,12 +9,12 @@ const HOOKS: Array[PackedScene] = [
 ]
 
 func _ready() -> void:
-	WaveManager.enemy_died.connect(_on_enemy_died, CONNECT_DEFERRED)
+	WaveManager.enemy_died.connect(_on_enemy_died)
 	WaveManager.wave_started.connect(_on_wave_started, CONNECT_DEFERRED)
 	WaveManager.wave_started.emit.call_deferred()
 
-func _on_enemy_died(health: Health) -> void:
-	if is_instance_valid(health): await health.tree_exited
+func _on_enemy_died(health: Object) -> void:
+	if is_instance_valid(health) and health is Health: await health.tree_exited
 	var enemies := get_tree().get_nodes_in_group(&"enemy")
 	print(enemies)
 	print("enemy died, array size == ", enemies.size())

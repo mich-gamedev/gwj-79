@@ -7,6 +7,8 @@ extends CharacterBody2D
 func _ready() -> void:
 	anim.speed_scale = randf_range(0.8, 1.2)
 	move_body_towards.offset = deg_to_rad(randf_range(-45,45))
+	await get_tree().create_timer(randf_range(0.1, 0.75)).timeout
+	anim.play(&"pulse")
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player:
