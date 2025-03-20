@@ -17,3 +17,5 @@ mono_crash.*.json
 =======
 /android/
 >>>>>>> 17a93c5 (Initial project)
+
+exports/
