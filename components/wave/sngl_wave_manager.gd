@@ -8,6 +8,7 @@ const enemy_list: Array[String] = [
 	"res://resources/enemy_spawnrate/firemoth.tres",
 	"res://resources/enemy_spawnrate/glass_cannon.tres",
 	"res://resources/enemy_spawnrate/shieldbug.tres",
+	"res://resources/enemy_spawnrate/shooter.tres",
 ]
 
 var spawn_count: int = randi_range(1, 2)
@@ -19,7 +20,7 @@ var wave_idx: int = -1:
 			rng_dict.clear()
 			for path in enemy_list:
 				var i : EnemySpawnRate = load(path)
-				rng_dict[i] = i.curve.sample_baked(wave_idx)
+				rng_dict[i] = i.curve.sample_baked(wave_idx/3.0)
 			print(rng_dict)
 
 var rng := RandomNumberGenerator.new()

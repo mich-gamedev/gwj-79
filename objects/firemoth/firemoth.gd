@@ -15,5 +15,7 @@ func _on_frame_changed() -> void:
 func _on_health_died() -> void:
 	var inst = HOOK.instantiate()
 	get_tree().current_scene.add_child.call_deferred(inst)
+	await inst.ready
 	inst.global_position = global_position
 	inst.reset_physics_interpolation()
+	Player.node._on_area_2d_area_entered(inst)

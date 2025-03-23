@@ -5,13 +5,13 @@
 
 [sub_resource type="Curve" id="Curve_ql74n"]
 _limits = [0.0, 1.0, 0.0, 10.0]
-_data = [Vector2(3, 0), 0.0, 0.508237, 0, 0, Vector2(8, 0.4), -0.0596476, 0.0, 0, 0]
+_data = [Vector2(5, 0), 0.0, 0.508237, 0, 0, Vector2(10, 0.4), -0.0596476, 0.0, 0, 0]
 point_count = 2
 metadata/_snap_enabled = true
 
 [resource]
 script = ExtResource("2_f8nib")
-cost = 2.0
+cost = 5.0
 scene = ExtResource("1_xcxwc")
 curve = SubResource("Curve_ql74n")
 metadata/_custom_type_script = "uid://tyqf8eh75lcy"

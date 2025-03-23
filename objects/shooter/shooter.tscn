@@ -1,0 +1,125 @@
+[gd_scene load_steps=19 format=3 uid="uid://b4875jk85jalb"]
+
+[ext_resource type="Script" uid="uid://dkrdcai6c8yc8" path="res://components/movement/move_towards.gd" id="1_uc14v"]
+[ext_resource type="Script" uid="uid://chyavayigmug7" path="res://objects/shooter/shooter.gd" id="1_w4olh"]
+[ext_resource type="Script" uid="uid://dbwfab24e5om2" path="res://components/movement/collide_and_bounce.gd" id="2_tnw4f"]
+[ext_resource type="Script" uid="uid://b8lw0lyjc35h0" path="res://components/health/hitbox.gd" id="4_w4olh"]
+[ext_resource type="Script" uid="uid://hcck4nf3qor6" path="res://components/health/health.gd" id="5_ip75m"]
+[ext_resource type="Texture2D" uid="uid://1tr4dtq7uccc" path="res://objects/shooter/shooter.png" id="6_uc14v"]
+[ext_resource type="Script" uid="uid://nw0wwhtqeprb" path="res://components/health/free_on_death.gd" id="6_w4olh"]
+[ext_resource type="Script" uid="uid://dvqcrjqt2v8rh" path="res://components/add_score_on_death.gd" id="7_5giei"]
+[ext_resource type="Script" uid="uid://bjg1c8ov7iqsg" path="res://components/bullet/fire_bullet.gd" id="8_ip75m"]
+[ext_resource type="PackedScene" uid="uid://conoadgsxhmfc" path="res://objects/glass_cannon/bullet.tscn" id="9_5giei"]
+[ext_resource type="Texture2D" uid="uid://bx4fsvlr1nx8q" path="res://assets/big-circle.png" id="10_ip75m"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5or4p"]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_or41v"]
+
+[sub_resource type="Curve" id="Curve_5giei"]
+_limits = [-1.0, 1.49012e-08, 0.0, 1.0]
+_data = [Vector2(0, -0.4), 0.0, 0.202186, 0, 0, Vector2(1, -1), -1.84651, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_enabled = true
+
+[sub_resource type="CurveTexture" id="CurveTexture_n1guk"]
+curve = SubResource("Curve_5giei")
+
+[sub_resource type="Curve" id="Curve_tnnqc"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.6), -2.17584, 0.0, 0, 0]
+point_count = 3
+metadata/_snap_enabled = true
+
+[sub_resource type="CurveTexture" id="CurveTexture_l3fxt"]
+curve = SubResource("Curve_tnnqc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bryvd"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(96, 0, 0)
+emission_shape = 3
+emission_box_extents = Vector3(8, 20, 1)
+radial_velocity_min = -2.23517e-05
+radial_velocity_max = 480.0
+radial_velocity_curve = SubResource("CurveTexture_n1guk")
+gravity = Vector3(0, 0, 0)
+scale_min = 0.1
+scale_max = 0.15
+scale_curve = SubResource("CurveTexture_l3fxt")
+
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 0
+motion_mode = 1
+script = ExtResource("1_w4olh")
+
+[node name="MoveBodyTowards" type="Node" parent="." node_paths=PackedStringArray("body")]
+script = ExtResource("1_uc14v")
+speed = 72.0
+accel = 36.0
+offset = 1.1781
+body = NodePath("..")
+metadata/_custom_type_script = "uid://dkrdcai6c8yc8"
+
+[node name="CollideAndBounce" type="Node" parent="." node_paths=PackedStringArray("body")]
+script = ExtResource("2_tnw4f")
+body = NodePath("..")
+metadata/_custom_type_script = "uid://dbwfab24e5om2"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_5or4p")
+
+[node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("health")]
+script = ExtResource("4_w4olh")
+health = NodePath("Health")
+team = 1
+metadata/_custom_type_script = "uid://b8lw0lyjc35h0"
+
+[node name="Health" type="Node" parent="Hitbox"]
+script = ExtResource("5_ip75m")
+has_invincibility = true
+metadata/_custom_type_script = "uid://hcck4nf3qor6"
+
+[node name="FreeOnDeath" type="Node" parent="Hitbox/Health" node_paths=PackedStringArray("health", "actor")]
+script = ExtResource("6_w4olh")
+health = NodePath("..")
+actor = NodePath("../../..")
+delay = 0.05
+metadata/_custom_type_script = "uid://nw0wwhtqeprb"
+
+[node name="AddScoreOnDeath" type="Node" parent="Hitbox/Health" node_paths=PackedStringArray("health")]
+script = ExtResource("7_5giei")
+health = NodePath("..")
+amount = 20
+metadata/_custom_type_script = "uid://dvqcrjqt2v8rh"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_or41v")
+debug_color = Color(0.996078, 0, 0.184314, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("6_uc14v")
+offset = Vector2(2.5, 0)
+
+[node name="FireBullet" type="Node2D" parent="Sprite2D"]
+position = Vector2(8, 0)
+script = ExtResource("8_ip75m")
+bullet = ExtResource("9_5giei")
+speed = 120.0
+cooldown = 2.0
+metadata/_custom_type_script = "uid://bjg1c8ov7iqsg"
+
+[node name="Timer" type="Timer" parent="Sprite2D/FireBullet"]
+wait_time = 2.5
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Sprite2D"]
+modulate = Color(0.113725, 0.168627, 0.32549, 1)
+z_index = -100
+rotation = 0.0763338
+emitting = false
+amount = 12
+texture = ExtResource("10_ip75m")
+lifetime = 0.5
+process_material = SubResource("ParticleProcessMaterial_bryvd")
+
+[connection signal="died" from="Hitbox/Health" to="." method="_on_health_died"]
+[connection signal="timeout" from="Sprite2D/FireBullet/Timer" to="." method="_on_timer_timeout"]

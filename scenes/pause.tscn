@@ -1,0 +1,116 @@
+[gd_scene load_steps=4 format=3 uid="uid://bt7ndj5l1xr4g"]
+
+[ext_resource type="Texture2D" uid="uid://b82mflhxogewd" path="res://assets/bg-cover.png" id="1_f1d2v"]
+[ext_resource type="Script" uid="uid://hilhi1t56g3y" path="res://scenes/pause.gd" id="1_m0klm"]
+[ext_resource type="Script" uid="uid://c0ia2w3kyxcux" path="res://components/button_anim.gd" id="2_r8yp4"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+process_mode = 3
+layer = 100
+visible = false
+script = ExtResource("1_m0klm")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_f1d2v")
+stretch_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(240, 0)
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[center]Paused"
+fit_content = true
+
+[node name="Fullscreen" type="CheckButton" parent="VBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Fullscreen"
+script = ExtResource("2_r8yp4")
+normal_size = 128.0
+hover_size = 160.0
+
+[node name="PixelPerfect" type="CheckButton" parent="VBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+button_pressed = true
+text = "Pixel Perfect"
+script = ExtResource("2_r8yp4")
+normal_size = 128.0
+hover_size = 160.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Music"
+
+[node name="MusicSlider" type="HSlider" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+max_value = 2.0
+step = 0.0
+value = 1.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="SFX" type="Label" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Sfx"
+
+[node name="SFXSlider" type="HSlider" parent="VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+max_value = 2.0
+step = 0.0
+value = 1.0
+
+[node name="Pause" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Exit"
+script = ExtResource("2_r8yp4")
+normal_size = 64.0
+hover_size = 96.0
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="toggled" from="VBoxContainer/Fullscreen" to="." method="_on_fullscreen_toggled"]
+[connection signal="toggled" from="VBoxContainer/PixelPerfect" to="." method="_on_pixel_perfect_toggled"]
+[connection signal="value_changed" from="VBoxContainer/HBoxContainer/MusicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/HBoxContainer2/SFXSlider" to="." method="_on_sfx_slider_value_changed"]
+[connection signal="pressed" from="VBoxContainer/Pause" to="." method="_on_pause_pressed"]

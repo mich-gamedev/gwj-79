@@ -1,8 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://conoadgsxhmfc"]
+[gd_scene load_steps=18 format=3 uid="uid://conoadgsxhmfc"]
 
 [ext_resource type="Script" uid="uid://jny3e7c40ovc" path="res://components/bullet/bullet.gd" id="1_2qobs"]
 [ext_resource type="Texture2D" uid="uid://bcc3i2rsv5x2u" path="res://objects/glass_cannon/bullet.png" id="2_h7jhx"]
 [ext_resource type="Script" uid="uid://cqidagg8vla5p" path="res://components/health/hurtbox.gd" id="3_wyctk"]
+[ext_resource type="AudioStream" uid="uid://c528lih7v5g17" path="res://objects/shooter/sfx/shoot_-01.wav" id="4_yl6gx"]
+[ext_resource type="AudioStream" uid="uid://dh3r273sg2rtp" path="res://objects/shooter/sfx/shoot_-02.wav" id="5_36bfe"]
+[ext_resource type="AudioStream" uid="uid://cxho7m4wq2obt" path="res://objects/shooter/sfx/shoot_-03.wav" id="6_8g6mq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h7jhx"]
 atlas = ExtResource("2_h7jhx")
@@ -44,7 +47,7 @@ animations = [{
 radius = 2.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n0j5r"]
-radius = 3.0
+radius = 6.0
 
 [sub_resource type="Animation" id="Animation_wyctk"]
 length = 0.001
@@ -85,6 +88,14 @@ _data = {
 &"spin": SubResource("Animation_h7jhx")
 }
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_n0j5r"]
+random_pitch = 1.1
+random_volume_offset_db = 3.0
+streams_count = 3
+stream_0/stream = ExtResource("4_yl6gx")
+stream_1/stream = ExtResource("5_36bfe")
+stream_2/stream = ExtResource("6_8g6mq")
+
 [node name="Bullet" type="CharacterBody2D" node_paths=PackedStringArray("hurtbox")]
 collision_layer = 8
 collision_mask = 8
@@ -113,3 +124,11 @@ libraries = {
 &"": SubResource("AnimationLibrary_x0g5k")
 }
 autoplay = "spin"
+
+[node name="SFXShoot" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_n0j5r")
+volume_db = 2.0
+autoplay = true
+max_distance = 640.0
+max_polyphony = 10
+bus = &"SFX"

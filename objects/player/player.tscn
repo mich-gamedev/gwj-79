@@ -1,12 +1,23 @@
-[gd_scene load_steps=21 format=3 uid="uid://bo0m7845gnthh"]
+[gd_scene load_steps=42 format=3 uid="uid://bo0m7845gnthh"]
 
 [ext_resource type="Script" uid="uid://b4x4meja20pwd" path="res://objects/player/player.gd" id="1_cqmt1"]
 [ext_resource type="Script" uid="uid://bjlasgm2f4gcd" path="res://objects/player/sprite.gd" id="2_g7ett"]
 [ext_resource type="Texture2D" uid="uid://bx4fsvlr1nx8q" path="res://assets/big-circle.png" id="3_ssrue"]
 [ext_resource type="Script" uid="uid://cqidagg8vla5p" path="res://components/health/hurtbox.gd" id="4_jnjyq"]
+[ext_resource type="Script" uid="uid://b8lw0lyjc35h0" path="res://components/health/hitbox.gd" id="5_xgwla"]
+[ext_resource type="FontFile" uid="uid://dov4652dqlvk7" path="res://assets/GrapeSoda.ttf" id="6_m4kly"]
 [ext_resource type="Script" uid="uid://hcck4nf3qor6" path="res://components/health/health.gd" id="6_ow0dq"]
 [ext_resource type="Texture2D" uid="uid://0infqvk6supg" path="res://objects/player/hp2.png" id="7_m4kly"]
 [ext_resource type="Texture2D" uid="uid://bihwfe7optpa5" path="res://objects/player/hp1.png" id="8_xgwla"]
+[ext_resource type="Texture2D" uid="uid://b7l6cmmt2s53d" path="res://objects/player/heart_particle1.png" id="10_psowp"]
+[ext_resource type="Texture2D" uid="uid://dgfxy728s4ivn" path="res://objects/player/heart_particle2.png" id="11_45urx"]
+[ext_resource type="AudioStream" uid="uid://uh70he4gdd1v" path="res://objects/player/sfx/slash/tear.wav" id="12_45urx"]
+[ext_resource type="AudioStream" uid="uid://k6t2kad0jvyp" path="res://objects/player/sfx/bounce'/bounce.wav" id="13_c34wb"]
+[ext_resource type="AudioStream" uid="uid://cwy43iw06wxhd" path="res://objects/player/sfx/launchg/launch-01.wav" id="14_x5bgp"]
+[ext_resource type="AudioStream" uid="uid://45x11sa5pwp5" path="res://objects/player/sfx/launchg/launch-02.wav" id="15_dthqj"]
+[ext_resource type="AudioStream" uid="uid://qw3d4nlxqwxp" path="res://objects/player/sfx/launchg/launch-03.wav" id="16_xlkbi"]
+[ext_resource type="AudioStream" uid="uid://2lrtpra88aic" path="res://objects/player/sfx/latch/latch.wav" id="17_dthqj"]
+[ext_resource type="AudioStream" uid="uid://dj4socssuf5gp" path="res://objects/player/sfx/hurt/hurt-01.wav" id="18_xlkbi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5lq1w"]
 radius = 3.0
@@ -62,6 +73,13 @@ collision_bounce = 0.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_gnkmh"]
 radius = 3.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_bi5m7"]
+radius = 4.12311
+
+[sub_resource type="Theme" id="Theme_xgwla"]
+default_font = ExtResource("6_m4kly")
+default_font_size = 16
+
 [sub_resource type="Animation" id="Animation_xgwla"]
 length = 0.001
 tracks/0/type = "value"
@@ -100,6 +118,56 @@ _data = {
 &"RESET": SubResource("Animation_xgwla"),
 &"pulse": SubResource("Animation_m4kly")
 }
+
+[sub_resource type="Curve" id="Curve_c34wb"]
+_data = [Vector2(0, 0.521355), 0.0, 6.43299, 0, 0, Vector2(0.257143, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.71213, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_45rsp"]
+curve = SubResource("Curve_c34wb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ylcck"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 8.0
+initial_velocity_max = 32.0
+gravity = Vector3(0, 98, 0)
+scale_curve = SubResource("CurveTexture_45rsp")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_c34wb"]
+random_pitch = 1.2
+random_volume_offset_db = 3.0
+streams_count = 1
+stream_0/stream = ExtResource("12_45urx")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_45rsp"]
+random_pitch = 1.33
+random_volume_offset_db = 2.0
+streams_count = 1
+stream_0/stream = ExtResource("13_c34wb")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_l55sg"]
+random_pitch = 1.2
+random_volume_offset_db = 3.0
+streams_count = 3
+stream_0/stream = ExtResource("14_x5bgp")
+stream_1/stream = ExtResource("15_dthqj")
+stream_2/stream = ExtResource("16_xlkbi")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_xlkbi"]
+random_pitch = 1.4
+random_volume_offset_db = 2.0
+streams_count = 1
+stream_0/stream = ExtResource("17_dthqj")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_28utn"]
+random_pitch = 1.1
+random_volume_offset_db = 2.0
+streams_count = 4
+stream_0/stream = ExtResource("18_xlkbi")
+stream_1/stream = ExtResource("18_xlkbi")
+stream_2/stream = ExtResource("18_xlkbi")
+stream_3/stream = ExtResource("18_xlkbi")
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
@@ -173,12 +241,21 @@ position_smoothing_enabled = true
 position_smoothing_speed = 3.0
 editor_draw_screen = false
 
-[node name="Health" type="Node" parent="."]
+[node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("health")]
+script = ExtResource("5_xgwla")
+health = NodePath("Health")
+metadata/_custom_type_script = "uid://b8lw0lyjc35h0"
+
+[node name="Health" type="Node" parent="Hitbox"]
 script = ExtResource("6_ow0dq")
-max_health = 5.0
-starting_health = 5.0
-invincibility_time = 0.25
+max_health = 1.0
+starting_health = 1.0
+invincibility_time = 1.0
+has_invincibility = true
 metadata/_custom_type_script = "uid://hcck4nf3qor6"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_bi5m7")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -189,6 +266,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_xgwla")
 
 [node name="Healthbar" type="Control" parent="CanvasLayer/Control"]
 layout_mode = 1
@@ -213,12 +291,83 @@ texture = ExtResource("8_xgwla")
 expand_mode = 1
 stretch_mode = 1
 
+[node name="Control" type="Control" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="ScoreLabel" type="RichTextLabel" parent="CanvasLayer/Control/Control"]
+layout_mode = 2
+offset_left = 295.5
+offset_right = 344.5
+offset_bottom = 40.0
+grow_horizontal = 2
+bbcode_enabled = true
+text = "[center]Score: 0"
+fit_content = true
+autowrap_mode = 0
+
+[node name="DmgFlash" type="ReferenceRect" parent="CanvasLayer/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+border_color = Color(1, 0, 0.301961, 1)
+border_width = 4.0
+editor_only = false
+
 [node name="DamageAnim" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_bi5m7")
 }
 
+[node name="Heal" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 1
+texture = ExtResource("10_psowp")
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_ylcck")
+
+[node name="Harm" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 1
+texture = ExtResource("11_45urx")
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_ylcck")
+
+[node name="SFXSlash" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
+stream = SubResource("AudioStreamRandomizer_c34wb")
+max_polyphony = 5
+bus = &"SFX"
+
+[node name="SFXBounce" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_45rsp")
+volume_db = 1.0
+bus = &"SFX"
+
+[node name="SFXLaunch" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_l55sg")
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="SFXLatch" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_xlkbi")
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="SFXHurt" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
+stream = SubResource("AudioStreamRandomizer_28utn")
+volume_db = 3.0
+bus = &"SFX"
+
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="hitbox_entered" from="Hurtbox" to="." method="_on_hurtbox_hitbox_entered"]
-[connection signal="harmed" from="Health" to="." method="_on_health_harmed"]
-[connection signal="healed" from="Health" to="." method="_on_health_healed"]
+[connection signal="died" from="Hitbox/Health" to="." method="_on_health_died"]
+[connection signal="harmed" from="Hitbox/Health" to="." method="_on_health_harmed" flags=3]
+[connection signal="healed" from="Hitbox/Health" to="." method="_on_health_healed" flags=3]

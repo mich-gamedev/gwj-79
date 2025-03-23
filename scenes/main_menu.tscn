@@ -1,0 +1,185 @@
+[gd_scene load_steps=13 format=3 uid="uid://ly1fvpx8gyqa"]
+
+[ext_resource type="Script" uid="uid://h7gi5gguc8kq" path="res://scenes/main_menu.gd" id="1_8ln24"]
+[ext_resource type="Texture2D" uid="uid://bx4fsvlr1nx8q" path="res://assets/big-circle.png" id="1_bqqt6"]
+[ext_resource type="Texture2D" uid="uid://b82mflhxogewd" path="res://assets/bg-cover.png" id="2_wu84c"]
+[ext_resource type="Texture2D" uid="uid://g52r3lihnwuy" path="res://assets/logo.png" id="3_8ln24"]
+[ext_resource type="Script" uid="uid://c0ia2w3kyxcux" path="res://components/button_anim.gd" id="4_wu84c"]
+
+[sub_resource type="Curve" id="Curve_rtw2f"]
+_limits = [-24.0, 24.0, 0.0, 1.0]
+_data = [Vector2(0, 24), 0.0, 0.0, 0, 0, Vector2(0.0333333, -24), 0.0, 0.0, 0, 0, Vector2(0.0666567, 24), 0.0, 0.0, 0, 0, Vector2(0.1, -24), 0.0, 0.0, 0, 0, Vector2(0.133333, 24), 0.0, 0.0, 0, 0, Vector2(0.166667, -24), 0.0, 0.0, 0, 0, Vector2(0.2, 24), 0.0, 0.0, 0, 0, Vector2(0.233333, -24), 0.0, 0.0, 0, 0, Vector2(0.266667, 24), 0.0, 0.0, 0, 0, Vector2(0.3, -24), 0.0, 0.0, 0, 0, Vector2(0.333333, 24), 0.0, 0.0, 0, 0, Vector2(0.366667, -24), 0.0, 0.0, 0, 0, Vector2(0.4, 24), 0.0, 0.0, 0, 0, Vector2(0.433333, -24), 0.0, 0.0, 0, 0, Vector2(0.466667, 24), 0.0, 0.0, 0, 0, Vector2(0.5, -24), 0.0, 0.0, 0, 0, Vector2(0.533333, 24), 0.0, 0.0, 0, 0, Vector2(0.566667, -24), 0.0, 0.0, 0, 0, Vector2(0.6, 24), 0.0, 0.0, 0, 0, Vector2(0.633333, -24), 0.0, 0.0, 0, 0, Vector2(0.666667, 24), 0.0, 0.0, 0, 0, Vector2(0.7, -24), 0.0, 0.0, 0, 0, Vector2(0.733333, 24), 0.0, 0.0, 0, 0, Vector2(0.766667, -24), 0.0, 0.0, 0, 0, Vector2(0.8, 24), 0.0, 0.0, 0, 0, Vector2(0.833333, -24), 0.0, 0.0, 0, 0, Vector2(0.866667, 24), 0.0, 0.0, 0, 0, Vector2(0.9, -24), 0.0, 0.0, 0, 0, Vector2(0.933333, 24), 0.0, 0.0, 0, 0, Vector2(0.966667, -24), 0.0, 0.0, 0, 0, Vector2(1, 24), 0.0, 0.0, 0, 0]
+point_count = 31
+metadata/_snap_enabled = true
+metadata/_snap_count = 30
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_71j4m"]
+curve_y = SubResource("Curve_rtw2f")
+
+[sub_resource type="Curve" id="Curve_oa1go"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="Curve" id="Curve_tbmy8"]
+_limits = [0.0, 8.0, 0.0, 1.0]
+_data = [Vector2(0, 8), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="Curve" id="Curve_jk1qb"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_7r4gi"]
+curve_x = SubResource("Curve_oa1go")
+curve_y = SubResource("Curve_tbmy8")
+curve_z = SubResource("Curve_jk1qb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5dd4i"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 5000, 1)
+spread = 0.0
+initial_velocity_min = 128.0
+initial_velocity_max = 128.0
+directional_velocity_min = 1.0
+directional_velocity_max = 1.0
+directional_velocity_curve = SubResource("CurveXYZTexture_71j4m")
+gravity = Vector3(0, 0, 0)
+scale_min = 0.01
+scale_max = 0.05
+scale_curve = SubResource("CurveXYZTexture_7r4gi")
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_8ln24")
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.75, 0.75)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Parallax2D"]
+modulate = Color(0.113725, 0.168627, 0.32549, 1)
+z_index = -100
+position = Vector2(-6070, 154)
+amount = 6400
+texture = ExtResource("1_bqqt6")
+lifetime = 100.0
+preprocess = 100.0
+visibility_rect = Rect2(0, -5000, 10000, 10000)
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_5dd4i")
+
+[node name="Parallax2D2" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.66, 0.75)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Parallax2D2"]
+modulate = Color(0.113725, 0.168627, 0.32549, 1)
+z_index = -100
+position = Vector2(-6070, 154)
+amount = 6400
+texture = ExtResource("1_bqqt6")
+lifetime = 100.0
+preprocess = 100.0
+visibility_rect = Rect2(0, -5000, 10000, 10000)
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_5dd4i")
+
+[node name="Parallax2D3" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.5, 0.75)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Parallax2D3"]
+modulate = Color(0.113725, 0.168627, 0.32549, 1)
+z_index = -100
+position = Vector2(-6070, 154)
+amount = 6400
+texture = ExtResource("1_bqqt6")
+lifetime = 100.0
+preprocess = 100.0
+visibility_rect = Rect2(0, -5000, 10000, 10000)
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_5dd4i")
+
+[node name="Parallax2D4" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.33, 0.75)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Parallax2D4"]
+modulate = Color(0.113725, 0.168627, 0.32549, 1)
+z_index = -100
+position = Vector2(-6070, 154)
+amount = 6400
+texture = ExtResource("1_bqqt6")
+lifetime = 100.0
+preprocess = 100.0
+visibility_rect = Rect2(0, -5000, 10000, 10000)
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_5dd4i")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -50
+offset_left = -18032.0
+offset_top = -11470.0
+offset_right = 24278.0
+offset_bottom = 12215.0
+texture = ExtResource("2_wu84c")
+stretch_mode = 1
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -71.0
+offset_right = 71.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(284, 78)
+layout_mode = 2
+texture = ExtResource("3_8ln24")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Play" type="Button" parent="CanvasLayer/Control/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Play"
+script = ExtResource("4_wu84c")
+
+[node name="Options" type="Button" parent="CanvasLayer/Control/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Options"
+script = ExtResource("4_wu84c")
+
+[node name="Exit" type="Button" parent="CanvasLayer/Control/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Exit"
+script = ExtResource("4_wu84c")
+
+[connection signal="pressed" from="CanvasLayer/Control/MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/MarginContainer/VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/MarginContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]

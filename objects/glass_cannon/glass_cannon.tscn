@@ -1,22 +1,27 @@
-[gd_scene load_steps=14 format=3 uid="uid://c56ohf5hav55x"]
+[gd_scene load_steps=15 format=3 uid="uid://c56ohf5hav55x"]
 
 [ext_resource type="Script" uid="uid://cehiwpc5l28cs" path="res://objects/glass_cannon/glass_cannon.gd" id="1_iaq51"]
 [ext_resource type="Script" uid="uid://dkrdcai6c8yc8" path="res://components/movement/move_towards.gd" id="1_kb3g6"]
 [ext_resource type="Script" uid="uid://dbwfab24e5om2" path="res://components/movement/collide_and_bounce.gd" id="2_iaq51"]
 [ext_resource type="Script" uid="uid://b8lw0lyjc35h0" path="res://components/health/hitbox.gd" id="3_p8204"]
 [ext_resource type="Script" uid="uid://hcck4nf3qor6" path="res://components/health/health.gd" id="4_jomo6"]
-[ext_resource type="Script" uid="uid://cqidagg8vla5p" path="res://components/health/hurtbox.gd" id="5_bw6g1"]
 [ext_resource type="Script" uid="uid://nw0wwhtqeprb" path="res://components/health/free_on_death.gd" id="6_p8204"]
 [ext_resource type="Texture2D" uid="uid://nwouajhxmgq1" path="res://objects/glass_cannon/glass_cannon.png" id="6_wxfbm"]
+[ext_resource type="Script" uid="uid://dvqcrjqt2v8rh" path="res://components/add_score_on_death.gd" id="7_bw6g1"]
 [ext_resource type="Script" uid="uid://bjg1c8ov7iqsg" path="res://components/bullet/fire_bullet.gd" id="9_jomo6"]
 [ext_resource type="PackedScene" uid="uid://conoadgsxhmfc" path="res://objects/glass_cannon/bullet.tscn" id="10_bw6g1"]
+[ext_resource type="AudioStream" uid="uid://ptuyi2h3ft1y" path="res://objects/glass_cannon/sfx/scope.wav" id="11_wxfbm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5or4p"]
 radius = 7.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_or41v"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ksdfs"]
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_k5p4u"]
+random_pitch = 1.1
+random_volume_offset_db = 2.0
+streams_count = 1
+stream_0/stream = ExtResource("11_wxfbm")
 
 [node name="CharacterBody2D" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 0
@@ -56,16 +61,15 @@ actor = NodePath("../../..")
 delay = 0.05
 metadata/_custom_type_script = "uid://nw0wwhtqeprb"
 
+[node name="AddScoreOnDeath" type="Node" parent="Hitbox/Health" node_paths=PackedStringArray("health")]
+script = ExtResource("7_bw6g1")
+health = NodePath("..")
+amount = 1
+metadata/_custom_type_script = "uid://dvqcrjqt2v8rh"
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("CircleShape2D_or41v")
 debug_color = Color(0.996078, 0, 0.184314, 0)
-
-[node name="Hurtbox" type="Area2D" parent="."]
-script = ExtResource("5_bw6g1")
-metadata/_custom_type_script = "uid://cqidagg8vla5p"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-shape = SubResource("CircleShape2D_ksdfs")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("6_wxfbm")
@@ -80,5 +84,12 @@ metadata/_custom_type_script = "uid://bjg1c8ov7iqsg"
 points = PackedVector2Array(0, 0, 0, 0)
 width = 0.0
 default_color = Color(0.494118, 0.145098, 0.32549, 1)
+
+[node name="SFXScope" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_k5p4u")
+volume_db = 5.0
+max_distance = 1280.0
+attenuation = 0.392292
+bus = &"SFX"
 
 [connection signal="died" from="Hitbox/Health" to="." method="_on_health_died"]

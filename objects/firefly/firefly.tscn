@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://7q5wdli5jl0d"]
+[gd_scene load_steps=16 format=4 uid="uid://7q5wdli5jl0d"]
 
 [ext_resource type="Script" uid="uid://dkrdcai6c8yc8" path="res://components/movement/move_towards.gd" id="1_5or4p"]
 [ext_resource type="Script" uid="uid://dctcth4djk7lg" path="res://objects/firefly/firefly.gd" id="1_v33uh"]
@@ -6,10 +6,10 @@
 [ext_resource type="Script" uid="uid://b8lw0lyjc35h0" path="res://components/health/hitbox.gd" id="4_ihlpy"]
 [ext_resource type="Script" uid="uid://v1nv1sbuicql" path="res://components/drawing/randomize_speed.gd" id="4_pct7v"]
 [ext_resource type="Script" uid="uid://hcck4nf3qor6" path="res://components/health/health.gd" id="5_pct7v"]
-[ext_resource type="Script" uid="uid://cqidagg8vla5p" path="res://components/health/hurtbox.gd" id="7_or41v"]
+[ext_resource type="Script" uid="uid://dvqcrjqt2v8rh" path="res://components/add_score_on_death.gd" id="7_or41v"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5or4p"]
-radius = 7.0
+radius = 6.0
 
 [sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_ihlpy"]
 _data = PackedByteArray("AAADAAUAAAABAAAAIAAAABgAAAC2AAAAUklGRq4AAABXRUJQVlA4TKIAAAAvH8AFECcgECC0S3LmRkBQ9Nx0QgLCDL/872bMfwDgL7KAQRtJgRYHLIsBcLB5BfiXxS15CRH9F1s2ewk9A+hkAxIg+X0kgQsAZ5rUmegXaDjUGuZEBUBzb4qoAOi19hATsNceQzoVmK6MTgWmdTnLNZF1WT+A/JA/8tN/IH89JF6OrOaDfQD5If+5/hIqgPyGCvz4jMo9APTLtgTyQwA/PgE=")
@@ -52,8 +52,6 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_or41v"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_ksdfs"]
 
 [node name="CharacterBody2D" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 0
@@ -106,16 +104,15 @@ script = ExtResource("5_pct7v")
 has_invincibility = true
 metadata/_custom_type_script = "uid://hcck4nf3qor6"
 
+[node name="AddScoreOnDeath" type="Node" parent="Hitbox/Health" node_paths=PackedStringArray("health")]
+script = ExtResource("7_or41v")
+health = NodePath("..")
+amount = 10
+metadata/_custom_type_script = "uid://dvqcrjqt2v8rh"
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("CircleShape2D_or41v")
 debug_color = Color(0.996078, 0, 0.184314, 0)
-
-[node name="Hurtbox" type="Area2D" parent="."]
-script = ExtResource("7_or41v")
-metadata/_custom_type_script = "uid://cqidagg8vla5p"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-shape = SubResource("CircleShape2D_ksdfs")
 
 [connection signal="frame_changed" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_frame_changed"]
 [connection signal="died" from="Hitbox/Health" to="." method="_on_health_died"]

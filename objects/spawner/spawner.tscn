@@ -162,9 +162,7 @@ autoplay = "warning"
 
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_left = -4.0
-offset_top = -256.0
 offset_right = 4.0
-offset_bottom = -256.0
 color = Color(1, 0.945098, 0.909804, 1)
 
 [node name="RingDraw" type="Node2D" parent="."]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://36y4x3mi32lf"]
+[gd_scene load_steps=18 format=3 uid="uid://36y4x3mi32lf"]
 
 [ext_resource type="Script" uid="uid://bb4yol5slvtqm" path="res://objects/shieldbug/shieldbug.gd" id="1_0525c"]
 [ext_resource type="Script" uid="uid://dkrdcai6c8yc8" path="res://components/movement/move_towards.gd" id="1_vhop5"]
@@ -6,16 +6,21 @@
 [ext_resource type="Script" uid="uid://b8lw0lyjc35h0" path="res://components/health/hitbox.gd" id="3_0525c"]
 [ext_resource type="Script" uid="uid://hcck4nf3qor6" path="res://components/health/health.gd" id="4_1w7jx"]
 [ext_resource type="Script" uid="uid://nw0wwhtqeprb" path="res://components/health/free_on_death.gd" id="5_8ywn6"]
-[ext_resource type="Script" uid="uid://cqidagg8vla5p" path="res://components/health/hurtbox.gd" id="5_ieqat"]
 [ext_resource type="Texture2D" uid="uid://cipktmylyyi66" path="res://objects/shieldbug/shieldbug.png" id="6_araib"]
 [ext_resource type="Script" uid="uid://k8hd30moenix" path="res://components/drawing/fancy_circle.gd" id="7_2p1yg"]
+[ext_resource type="Script" uid="uid://dvqcrjqt2v8rh" path="res://components/add_score_on_death.gd" id="7_0525c"]
+[ext_resource type="AudioStream" uid="uid://6dynkliwqgbu" path="res://objects/shieldbug/sfx/scream.wav" id="8_1w7jx"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5or4p"]
 radius = 7.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_or41v"]
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ieqat"]
+random_pitch = 1.2
+random_volume_offset_db = 3.0
+streams_count = 1
+stream_0/stream = ExtResource("8_1w7jx")
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ksdfs"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_or41v"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fbp6s"]
 radius = 48.0
@@ -70,10 +75,22 @@ tracks/3/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Hitbox/Health/SFXScream:playing")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_78bvd"]
 resource_name = "pulse"
-length = 1.5
+length = 2.0
 loop_mode = 1
 step = 0.0833333
 tracks/0/type = "value"
@@ -107,7 +124,7 @@ tracks/2/path = NodePath("RingDraw/Area2D/CollisionShape2D:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = false
 tracks/2/keys = {
-"times": PackedFloat32Array(0.0833333, 0.666667),
+"times": PackedFloat32Array(0.0833333, 0.416667),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
@@ -137,6 +154,18 @@ tracks/4/keys = {
 "args": [],
 "method": &"reset_sonic_boom"
 }]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Hitbox/Health/SFXScream:playing")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7ulae"]
@@ -182,16 +211,21 @@ actor = NodePath("../../..")
 delay = 0.05
 metadata/_custom_type_script = "uid://nw0wwhtqeprb"
 
+[node name="AddScoreOnDeath" type="Node" parent="Hitbox/Health" node_paths=PackedStringArray("health")]
+script = ExtResource("7_0525c")
+health = NodePath("..")
+amount = 20
+metadata/_custom_type_script = "uid://dvqcrjqt2v8rh"
+
+[node name="SFXScream" type="AudioStreamPlayer2D" parent="Hitbox/Health"]
+stream = SubResource("AudioStreamRandomizer_ieqat")
+max_distance = 480.0
+attenuation = 1.51572
+bus = &"SFX"
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("CircleShape2D_or41v")
 debug_color = Color(0.996078, 0, 0.184314, 0)
-
-[node name="Hurtbox" type="Area2D" parent="."]
-script = ExtResource("5_ieqat")
-metadata/_custom_type_script = "uid://cqidagg8vla5p"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-shape = SubResource("CircleShape2D_ksdfs")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("6_araib")
@@ -209,7 +243,6 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RingDraw/Area2D"]
-visible = false
 shape = SubResource("CircleShape2D_fbp6s")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

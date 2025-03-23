@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cguh66bfqpht2"]
+
+[ext_resource type="AudioStream" uid="uid://dtn0dhp32salq" path="res://assets/song_main.wav" id="1_yf3g7"]
+[ext_resource type="Script" uid="uid://dvcqycsher8dw" path="res://song_main.gd" id="2_0e3j3"]
+
+[node name="SongMain" type="AudioStreamPlayer"]
+process_mode = 3
+stream = ExtResource("1_yf3g7")
+volume_db = -28.0
+autoplay = true
+stream_paused = true
+bus = &"Music"
+script = ExtResource("2_0e3j3")

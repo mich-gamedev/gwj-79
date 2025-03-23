@@ -2,6 +2,7 @@ class_name Player extends CharacterBody2D
 
 static var node: Player
 static var cam: Camera2D
+static var score: int
 
 @export var base_speed: float
 @export_range(0, 2, 0.001, "or_greater") var bounce_bonus: float = 1.
@@ -14,9 +15,19 @@ static var cam: Camera2D
 @onready var gpu_wake: GPUParticles2D = $GPUWake
 @onready var max_hp: TextureRect = %MaxHP
 @onready var hp: TextureRect = %HP
-@onready var health: Health = $Health
+@onready var health: Health = $Hitbox/Health
 @onready var dmg_anim: AnimationPlayer = $DamageAnim
+@onready var dmg_flash: ReferenceRect = $CanvasLayer/Control/DmgFlash
+@onready var score_label: RichTextLabel = $CanvasLayer/Control/Control/ScoreLabel
 
+@onready var gpu_heal: GPUParticles2D = $Heal
+@onready var gpu_harm: GPUParticles2D = $Harm
+
+@onready var sfx_slash: AudioStreamPlayer2D = $SFXSlash
+@onready var sfx_bounce: AudioStreamPlayer2D = $SFXBounce
+@onready var sfx_launch: AudioStreamPlayer2D = $SFXLaunch
+@onready var sfx_latch: AudioStreamPlayer2D = $SFXLatch
+@onready var sfx_hurt: AudioStreamPlayer2D = $SFXHurt
 
 var twn_reflect: Tween
 
@@ -29,10 +40,12 @@ signal hook_released
 
 const SLAM_SPARK = preload("res://objects/animations/slam_spark.tscn")
 const WAVE = preload("res://objects/animations/wave.tscn")
+const DIED = preload("res://died.tscn")
 
 func _ready() -> void:
 	node = self
 	cam = $Camera2D
+	WaveManager.wave_started.connect(_wave_started)
 	await get_tree().create_timer(0.5).timeout
 	velocity = base_speed * Vector2.from_angle(randf_range(0, TAU))
 
@@ -43,9 +56,11 @@ func _physics_process(delta: float) -> void:
 	dmg_anim.play(&"RESET" if health.can_harm else &"pulse")
 	if !latched_hook:
 		cam.position = velocity.normalized() * 32
+		if velocity.is_zero_approx(): velocity = Vector2.from_angle(rotation) * base_speed
 		preview.hide()
 		var coll = move_and_collide(velocity * delta)
 		if coll:
+			sfx_bounce.play()
 			gpu_collision.global_position = global_position
 			gpu_collision.rotation = coll.get_normal().angle()
 			gpu_collision.restart()
@@ -82,6 +97,7 @@ func _physics_process(delta: float) -> void:
 			preview.add_point(test.global_position)
 
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+			sfx_launch.play()
 			latched_hook.hook_released.emit(self, get_local_mouse_position().normalized())
 			latched_hook = null
 			velocity = get_local_mouse_position().normalized() * base_speed
@@ -90,6 +106,8 @@ func _physics_process(delta: float) -> void:
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if !latched_hook and area is Hook:
+		add_to_score(1)
+		sfx_latch.play()
 		latched_hook = area
 		area.hook_latched.emit(self)
 		hook_latched.emit(area)
@@ -112,14 +130,16 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		health.can_harm = true
 
 func _on_hurtbox_hitbox_entered(hitbox: Hitbox) -> void:
-		get_tree().paused = true
-		await get_tree().create_timer(0.05).timeout
-		get_tree().paused = false
-		var spark = SLAM_SPARK.instantiate()
-		get_tree().current_scene.add_child(spark)
-		spark.global_position = hitbox.global_position
-		spark.global_rotation = velocity.angle()
-		spark.reset_physics_interpolation()
+	sfx_slash.play()
+	get_tree().paused = true
+	await get_tree().create_timer(0.05).timeout
+	get_tree().paused = false
+	var spark = SLAM_SPARK.instantiate()
+	get_tree().current_scene.add_child(spark)
+	spark.global_position = hitbox.global_position
+	spark.global_rotation = velocity.angle()
+	spark.reset_physics_interpolation()
+	
 
 var twn_health: Tween
 
@@ -127,8 +147,44 @@ func _on_health_harmed(amount: float) -> void:
 	if twn_health: twn_health.kill()
 	twn_health = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 	twn_health.tween_property(hp, ^"size:x", health.health * 16, 0.15)
+	dmg_flash.show()
+	gpu_harm.restart()
+	sfx_hurt.play()
+	get_tree().paused = true
+	await get_tree().create_timer(0.1).timeout
+	if health.health != 0: get_tree().paused = false
+	await get_tree().create_timer(0.15).timeout
+	dmg_flash.hide()
 
 func _on_health_healed(amount: float) -> void:
+	gpu_heal.restart()
 	if twn_health: twn_health.kill()
 	twn_health = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 	twn_health.tween_property(hp, ^"size:x", health.health * 16, 0.15)
+
+var twn_score: Tween
+
+static func add_to_score(amount: int) -> void:
+	score += amount
+	node.update_score()
+
+func update_score() -> void:
+	score_label.text = "[center]%d" % score
+	if twn_score: twn_score.kill()
+	twn_score = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC).set_parallel()
+	twn_score.tween_method(
+		func(v): score_label.add_theme_font_size_override(&"normal_font_size", v),
+		24, 16,
+		0.5
+	)
+	score_label.rotation_degrees = 2
+	twn_score.tween_property(score_label, ^"rotation", 0, 0.5)
+
+func _wave_started() -> void:
+	if (randf() < 0.1) if health.health > 3 else (randf() < 0.5): health.heal(1)
+
+
+func _on_health_died() -> void:
+	hide()
+	var inst = DIED.instantiate()
+	get_tree().current_scene.add_child(inst)

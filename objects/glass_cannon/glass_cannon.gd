@@ -4,6 +4,7 @@ extends CharacterBody2D
 @onready var line: Line2D = $Line2D
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var health: Health = $Hitbox/Health
+@onready var sfx_scope: AudioStreamPlayer2D = $SFXScope
 
 func _ready() -> void:
 	Player.node.hook_latched.connect(_on_hook_latched)
@@ -14,6 +15,7 @@ func _physics_process(delta: float) -> void:
 
 func _on_hook_latched(hook: Hook) -> void:
 	print("firing bullet from glass cannon")
+	sfx_scope.play()
 	var twn = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC).set_parallel()
 	twn.tween_property(line, ^"width", 2.0, 0.35)
 	twn.tween_property(sprite, ^"scale", Vector2(1.5, 0.75), 0.35)

@@ -1,0 +1,115 @@
+[gd_scene load_steps=5 format=3 uid="uid://bye0i4l35l1qh"]
+
+[ext_resource type="Texture2D" uid="uid://b82mflhxogewd" path="res://assets/bg-cover.png" id="1_pciq6"]
+[ext_resource type="Script" uid="uid://n7w7dlqq3bxh" path="res://died.gd" id="1_xjgqo"]
+[ext_resource type="Script" uid="uid://c0ia2w3kyxcux" path="res://components/button_anim.gd" id="2_xjgqo"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_d5uyf"]
+color = Color(0.160784, 0.678431, 1, 1)
+
+[node name="CanvasLayer" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_xjgqo")
+
+[node name="Control2" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_pciq6")
+stretch_mode = 1
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Prompt" type="RichTextLabel" parent="Control/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[center][wave]You may have fallen...
+But you may rise again!!!"
+fit_content = true
+visible_characters_behavior = 1
+
+[node name="Waves" type="HBoxContainer" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="Control/VBoxContainer/Waves"]
+layout_mode = 2
+text = "Waves"
+
+[node name="HSeparator" type="HSeparator" parent="Control/VBoxContainer/Waves"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxLine_d5uyf")
+
+[node name="WavesAmount" type="Label" parent="Control/VBoxContainer/Waves"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "12"
+
+[node name="Points" type="HBoxContainer" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="Control/VBoxContainer/Points"]
+layout_mode = 2
+text = "Points"
+
+[node name="HSeparator" type="HSeparator" parent="Control/VBoxContainer/Points"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxLine_d5uyf")
+
+[node name="PointsAmount" type="Label" parent="Control/VBoxContainer/Points"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "4205"
+
+[node name="Retry" type="Button" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Retry"
+script = ExtResource("2_xjgqo")
+
+[node name="Exit" type="Button" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Go back"
+script = ExtResource("2_xjgqo")
+
+[connection signal="pressed" from="Control/VBoxContainer/Retry" to="." method="_on_retry_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/Exit" to="." method="_on_exit_pressed"]

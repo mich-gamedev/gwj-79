@@ -11,13 +11,15 @@ config_version=5
 [application]
 
 config/name="Godot Wild Jam 79"
-run/main_scene="uid://n05emk7dyeh1"
+run/main_scene="uid://ly1fvpx8gyqa"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]
 
 WaveManager="*res://components/wave/sngl_wave_manager.gd"
+Pause="*res://scenes/pause.tscn"
+SongManager="*res://objects/song_manager.tscn"
 
 [display]
 
@@ -51,6 +53,7 @@ enemy=""
 [gui]
 
 timers/tooltip_delay_sec=0.15
+theme/custom="uid://dbre67uso4ddc"
 
 [physics]
 
