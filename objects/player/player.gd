@@ -139,7 +139,7 @@ func _on_hurtbox_hitbox_entered(hitbox: Hitbox) -> void:
 	spark.global_position = hitbox.global_position
 	spark.global_rotation = velocity.angle()
 	spark.reset_physics_interpolation()
-	
+
 
 var twn_health: Tween
 

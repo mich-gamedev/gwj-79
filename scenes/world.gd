@@ -62,7 +62,7 @@ func _on_wave_started() -> void:
 		await get_tree().create_timer(0.25).timeout
 	still_spawning = false
 	spawning_done.emit()
-	
+
 func _pause_changed() -> void:
 	if Pause.visible:
 		SongManager.enter_filter(1, 1200)

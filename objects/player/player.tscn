@@ -248,8 +248,8 @@ metadata/_custom_type_script = "uid://b8lw0lyjc35h0"
 
 [node name="Health" type="Node" parent="Hitbox"]
 script = ExtResource("6_ow0dq")
-max_health = 1.0
-starting_health = 1.0
+max_health = 5.0
+starting_health = 5.0
 invincibility_time = 1.0
 has_invincibility = true
 metadata/_custom_type_script = "uid://hcck4nf3qor6"
